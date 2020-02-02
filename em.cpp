@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Test Commit
 // Wait for given input before continueing
 void WaitFor(string message) {
 	while (true) {
