@@ -37,8 +37,8 @@ int main() {
 	Action("SetPosition(Tom, BobsHouse.Door)");
 	Action("CreateItem(HouseKey, BlueKey)");
 	Action("SetPosition(HouseKey, BobsHouse.Shelf)");
-	Action("EnableIcon(\"Pickup_Key\", Hand, BobsHouse.Shelf, \"Pick up key\", true)");
-	Action("EnableIcon(\"Open_Door\", Open, BobsHouse.Door, \"Leave the house\", true)");
+	Action("EnableIcon(Pickup_Key, Hand, BobsHouse.Shelf, Pick up key, true)");
+	Action("EnableIcon(Open_Door, Open, BobsHouse.Door, Leave the house, true)");
 	Action("ShowMenu()");
 
 	vector<string> playerInv;
@@ -52,9 +52,9 @@ int main() {
 			Action("HideMenu()");
 			Action("EnableInput()");
 		}
-		else if (i == "input \"Pickup_Key\" BobsHouse.Shelf") {
+		else if (i == "input Pickup_Key BobsHouse.Shelf") {
 			playerInv.push_back("HouseKey");
-			Action("DisableIcon(\"Pickup_Key\", BobsHouse.Shelf)");
+			Action("DisableIcon(Pickup_Key, BobsHouse.Shelf)");
 			Action("SetPosition(HouseKey)");
 		}
 		else if (i == "input Key Inventory") {
@@ -68,7 +68,7 @@ int main() {
 			Action("HideList()");
 			Action("ClearList()");
 		}
-		else if (i == "input \"Open_Door\" BobsHouse.Door") {
+		else if (i == "input Open_Door BobsHouse.Door") {
 			bool hasKey = false;
 			for (string item : playerInv) {
 				if (item == "HouseKey") {
