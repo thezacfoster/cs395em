@@ -34,7 +34,10 @@ int main() {
 	Action("CreateCharacter(Tom, D)");
 	Action("SetClothing(Tom, HeavyArmour)");
 	Action("SetHairStyle(Tom, Short_Full)");
-	Action("SetPosition(Tom, BobsHouse.Door)");
+	Action("CreateCharacter(Mary, C)");
+	Action("SetClothing(Mary, Witch)");
+	Action("SetHairStyle(Mary, long)");
+	Action("SetPosition(Mary, BobsHouse.Door)");
 	Action("CreateItem(HouseKey, BlueKey)");
 	Action("SetPosition(HouseKey, BobsHouse.Shelf)");
 	Action("EnableIcon(\"Pickup_Key\", Hand, BobsHouse.Shelf, \"Pick up key\", true)");
@@ -77,8 +80,8 @@ int main() {
 			}
 			if (hasKey == true) {
 				Action("Exit(Bob, BobsHouse.Door, true)");
-				Action("CreatePlace(Farm, Farm)");
-				Action("Enter(Bob, Farm.Door, true)");
+				Action("CreatePlace(City, Newcity)");
+				Action("Enter(Bob, City.Door, true)");
 			}
 			else {
 				Action("SetNarration(\"The door is locked!\")");
