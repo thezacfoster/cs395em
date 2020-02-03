@@ -26,10 +26,15 @@ int main() {
 
 	// Set up a small house with a door.
 	Action("CreatePlace(BobsHouse, Cottage)");
+	Action("CreatePlace(Prison, Dungeon)");
 	Action("CreateCharacter(Bob, B)");
 	Action("SetClothing(Bob, Peasant)");
 	Action("SetHairStyle(Bob, Short_Full)");
 	Action("SetPosition(Bob, BobsHouse.Door)");
+	Action("CreateCharacter(Tom, D)");
+	Action("SetClothing(Tom, HeavyArmour)");
+	Action("SetHairStyle(Tom, Short_Full)");
+	Action("SetPosition(Tom, BobsHouse.Door)");
 	Action("CreateItem(HouseKey, BlueKey)");
 	Action("SetPosition(HouseKey, BobsHouse.Shelf)");
 	Action("EnableIcon(\"Pickup_Key\", Hand, BobsHouse.Shelf, \"Pick up key\", true)");
