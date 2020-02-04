@@ -2,25 +2,9 @@
 #include <string>
 #include <vector>
 
+#include "GuardBehavior.h"
+
 using namespace std;
-
-// Test Commit
-// Wait for given input before continueing
-void WaitFor(string message) {
-	while (true) {
-		string i;
-		 getline(cin, i);
-			if (i == message) {
-				break;
-			}
-	}
-}
-
-// Send a command to Camelot.
-void Action(string command) {
-	cout << ("start " + command) << endl;
-	WaitFor("succeeded " + command);
-}
 
 int main() {
 
@@ -37,6 +21,7 @@ int main() {
 	Action("CreateCharacter(Tom, D)");
 	Action("SetClothing(Tom, HeavyArmour)");
 	Action("SetHairStyle(Tom, Short_Full)");
+	Action("SetPosition(Tom, Newcity.WestEnd)");
 	//Mary Character
 	Action("CreateCharacter(Mary, C)");
 	Action("SetClothing(Mary, Peasant)");
@@ -63,6 +48,9 @@ int main() {
 	chestInv.push_back("Menacing Sword");
 	chestInv.push_back("Mysterious Book");
 
+	bool hasSword = false;
+	bool hasBook = false;
+
 	// Respond to input.
 	while (true) {
 		string i;
@@ -79,10 +67,12 @@ int main() {
 			Action("ShowDialog()");
 			Action("SetRight(Mary)");
 			Action("SetLeft(Bob)");
-			//if have book
-			Action("SetDialog(May I see your book? [yes|Sure!] [no|No...])");
-			//else dont have book
-			Action("SetDialog(I love to discuss books! [ok|Let me see if I can find one!])");
+			if (hasBook) {
+				Action("SetDialog(May I see your book? [yes|Sure!] [no|No...])");
+			}
+			else {
+				Action("SetDialog(I love to discuss books! [ok|Let me see if I can find one!])");
+			}
 		}
 
 		else if (i == "input Selected yes") {
@@ -112,6 +102,8 @@ int main() {
 		}
 		//-----------------Inventories--------------------
 		else if (i == "input Open_Chest BobsHouse.Chest") {
+			Action("WalkTo(Bob, BobsHouse.Chest)");
+			Action("OpenFurniture(Bob, BobsHouse.Chest)");
 			for (string item : chestInv) {
 				Action("AddToList(" + item + ")");
 			}
@@ -200,10 +192,13 @@ int main() {
 					hasSomething = true;
 			}
 			if (hasSomething == true) {
-				bool hasSword = false;
+				//bool hasSword = false;
 				for (string item : playerInv) {
 					if (item == "Menacing Sword") {
 						hasSword = true;
+					}
+					if (item == "Mysterious Book") {
+						hasBook = true;
 					}
 				}
 				if (hasSword) {
@@ -218,6 +213,7 @@ int main() {
 					Action("FadeIn()");
 					Action("Enter(Bob, Newcity.BlueHouseDoor, true)");
 					Action("EnableInput()");
+					OutsideSequence(hasSword);
 				}
 			}
 			else {
@@ -235,6 +231,7 @@ int main() {
 			Action("FadeIn()");
 			Action("Enter(Bob, Newcity.BlueHouseDoor, true)");
 			Action("EnableInput()");
+			OutsideSequence(hasSword);
 		}
 		else if (i == "input Open_Door Newcity.BlueHouseDoor") {
 			Action("Exit(Bob, Newcity.BlueHouseDoor, true)");
