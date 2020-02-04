@@ -50,6 +50,9 @@ int main() {
 	//Icons
 	Action("EnableIcon(Take_Flask, Flask, Refreshment, Take Refreshment, true)");
 	Action("EnableIcon(Open_Door, Open, BobsHouse.Door, Leave the house, true)");
+	Action("EnableIcon(Open_Chest, Open, BobsHouse.Chest, Open the chest, true)");
+	Action("EnableIcon(Take_Sword, Hand, Menacing Sword, Take the sword, true)");
+	Action("EnableIcon(Take_Book, Hand, Mysterious Book, Take the book, true)");
 	Action("EnableIcon(Talk_To_Mary, Talk, Mary, Talk To Mary, true)");
 	//Menu
 	Action("ShowMenu()");
@@ -106,36 +109,135 @@ int main() {
 			//Action("DisableIcon(Pickup_Key, BobsHouse.Shelf)");
 			//Action("SetPosition(HouseKey)");
 		}
+		//-----------------Inventories--------------------
+		else if (i == "input Open_Chest BobsHouse.Chest") {
+			for (string item : chestInv) {
+				Action("AddToList(" + item + ")");
+			}
+			Action("ShowList(BobsHouse.Chest)");
+		}
 		else if (i == "input Key Inventory") {
 			for (string item : playerInv) {
 				Action("AddToList(" + item + ")");
 				//action('DisableInput()')
-				Action("ShowList(Bob)");
 			}
+			Action("ShowList(Bob)");
 		}
 		else if (i == "input Close List") {
 			Action("HideList()");
 			Action("ClearList()");
+			Action("EnableInput()");
 		}
+		//---------------Chest Interactions---------------
+		else if (i == "input Take_Sword Menacing Sword") {
+			Action("HideList()");
+			Action("SetDialog(A rather menacing-looking sword. Take it? [TakeSword|Yes] [LeaveSword|No])");
+			Action("ShowDialog()");
+		}
+		else if (i == "input Selected TakeSword") {
+			Action("HideDialog()");
+			Action("ClearDialog()");
+			Action("ShowList(Bob)");
+			Action("RemoveFromList(Menacing Sword)");
+			for (int i = 0; i < chestInv.size(); i++) {
+				if (chestInv[i] == "Menacing Sword") {
+					chestInv.erase(chestInv.begin() + i);
+				}
+			}
+			Action("DisableIcon(Take_Sword, Menacing Sword)");
+			playerInv.push_back("Menacing Sword");
+
+			Action("EnableIcon(ReturnSword, Hand, BobsHouse.Chest, Return the sword, false)");
+		}
+		else if (i == "input Selected LeaveSword") {
+			Action("HideDialog()");
+			Action("ClearDialog()");
+			Action("ShowList(Bob)");
+		}
+		else if (i == "input ReturnSword BobsHouse.Chest") {
+			// Put function causes big error
+			//Action("Put(Bob, Menacing Sword, BobsHouse.Chest");
+			Action("WalkTo(Bob, BobsHouse.Chest)");
+			for (int i = 0; i < playerInv.size(); i++) {
+				if (playerInv[i] == "Menacing Sword") {
+					playerInv.erase(playerInv.begin() + i);
+				}
+			}
+			chestInv.push_back("Menacing Sword");
+			
+			// can't be re-enabled?
+			//Action("EnableIcon(Take_Sword, Hand, Menacing Sword)");
+		}
+		else if (i == "input Take_Book Mysterious Book") {
+			Action("HideList()");
+			Action("SetDialog(A mysterious book written in an unrecognizable language. Take it? [TakeBook|Yes] [LeaveBook|No])");
+			Action("ShowDialog()");
+		}
+		else if (i == "input Selected TakeBook") {
+			Action("HideDialog()");
+			Action("ClearDialog()");
+			Action("ShowList(Bob)");
+			Action("RemoveFromList(Mysterious Book)");
+			for (int i = 0; i < chestInv.size(); i++) {
+				if (chestInv[i] == "Mysterious Book") {
+					chestInv.erase(chestInv.begin() + i);
+				}
+			}
+			Action("DisableIcon(Take_Book, Mysterious Book)");
+			playerInv.push_back("Mysterious Book");
+		}
+		else if (i == "input Selected LeaveSword") {
+			Action("HideDialog()");
+			Action("ClearDialog()");
+			Action("ShowList(Bob)");
+		}
+
 		//Leaving house with at least one item
 		else if (i == "input Open_Door BobsHouse.Door") {
 			bool hasSomething = false;
 			if (playerInv.size() >= 1) {
 					hasSomething = true;
-				}
+			}
 			if (hasSomething == true) {
-				Action("Exit(Bob, BobsHouse.Door, true)");
-				Action("FadeOut()");
-				Action("DisableInput()");
-				Action("SetPosition(Bob, Newcity.BlueHouseDoor)");
-				Action("FadeIn()");
-				Action("Enter(Bob, Newcity.BlueHouseDoor, true)");
-				Action("EnableInput()");
+				bool hasSword = false;
+				for (string item : playerInv) {
+					if (item == "Menacing Sword") {
+						hasSword = true;
+					}
+				}
+				if (hasSword) {
+					Action("SetDialog(Are you sure you want to leave carrying the sword? [Leave|Yes] [DontLeave|No])");
+					Action("ShowDialog()");
+				}
+				else {
+					Action("Exit(Bob, BobsHouse.Door, true)");
+					Action("FadeOut()");
+					Action("DisableInput()");
+					Action("SetPosition(Bob, Newcity.BlueHouseDoor)");
+					Action("FadeIn()");
+					Action("Enter(Bob, Newcity.BlueHouseDoor, true)");
+					Action("EnableInput()");
+				}
 			}
 			else {
 				Action("SetNarration(You feel like a you need to take something with you.)");
 				Action("ShowNarration()");
 			}
+		}
+		else if (i == "input Selected Leave") {
+			Action("HideDialog()");
+			Action("ClearDialog()");
+			Action("Exit(Bob, BobsHouse.Door, true)");
+			Action("FadeOut()");
+			Action("DisableInput()");
+			Action("SetPosition(Bob, Newcity.BlueHouseDoor)");
+			Action("FadeIn()");
+			Action("Enter(Bob, Newcity.BlueHouseDoor, true)");
+			Action("EnableInput()");
+		}
+		else if (i == "input Selected DontLeave") {
+			Action("HideDialog()");
+			Action("ClearDialog()");
 		}
 		else if (i == "input Key Pause") {
 			Action("DisableInput()");
