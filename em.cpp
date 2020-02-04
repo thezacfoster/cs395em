@@ -45,14 +45,19 @@ int main() {
 	//Items
 	Action("CreateItem(Refreshment, BluePotion)");
 	Action("SetPosition(Refreshment, BobsHouse.Shelf)");	
+	Action("CreateItem(Menacing Sword, Sword)");
+	Action("CreateItem(Mysterious Book, BlueBook)");
 	//Icons
 	Action("EnableIcon(Take_Flask, Flask, Refreshment, Take Refreshment, true)");
 	Action("EnableIcon(Open_Door, Open, BobsHouse.Door, Leave the house, true)");
 	Action("EnableIcon(Talk_To_Mary, Talk, Mary, Talk To Mary, true)");
 	//Menu
 	Action("ShowMenu()");
-
+	//Inventories
 	vector<string> playerInv;
+	vector<string> chestInv;
+	chestInv.push_back("Menacing Sword");
+	chestInv.push_back("Mysterious Book");
 
 	// Respond to input.
 	while (true) {
