@@ -43,10 +43,10 @@ int main() {
 	Action("SetHairStyle(Mary, long)");
 	Action("SetPosition(Mary, Newcity.Plant)");
 	//Items
-	Action("CreateItem(HouseKey, BlueKey)");
-	Action("SetPosition(HouseKey, BobsHouse.Shelf)");
+	Action("CreateItem(Refreshment, BluePotion)");
+	Action("SetPosition(Refreshment, BobsHouse.Shelf)");	
 	//Icons
-	Action("EnableIcon(Pickup_Key, Hand, BobsHouse.Shelf, Pick up key, true)");
+	Action("EnableIcon(Take_Flask, Flask, Refreshment, Take Refreshment, true)");
 	Action("EnableIcon(Open_Door, Open, BobsHouse.Door, Leave the house, true)");
 	Action("EnableIcon(Talk_To_Mary, Talk, Mary, Talk To Mary, true)");
 	//Menu
@@ -94,10 +94,12 @@ int main() {
 		}
 		//------------------Dialogue For Mary------------------
 
-		else if (i == "input Pickup_Key BobsHouse.Shelf") {
-			playerInv.push_back("HouseKey");
-			Action("DisableIcon(Pickup_Key, BobsHouse.Shelf)");
-			Action("SetPosition(HouseKey)");
+		else if (i == "input Take_Flask Refreshment") {
+			Action("Take(Bob, Refreshment, BobsHouse.Shelf)");
+			Action("Pocket(Bob, Refreshment)");
+			playerInv.push_back("Refreshment");
+			//Action("DisableIcon(Pickup_Key, BobsHouse.Shelf)");
+			//Action("SetPosition(HouseKey)");
 		}
 		else if (i == "input Key Inventory") {
 			for (string item : playerInv) {
@@ -110,38 +112,25 @@ int main() {
 			Action("HideList()");
 			Action("ClearList()");
 		}
+		//Leaving house with at least one item
 		else if (i == "input Open_Door BobsHouse.Door") {
-			bool hasKey = false;
-			for (string item : playerInv) {
-				if (item == "HouseKey") {
-					hasKey = true;
+			bool hasSomething = false;
+			if (playerInv.size() >= 1) {
+					hasSomething = true;
 				}
-			}
-			if (hasKey == true) {
+			if (hasSomething == true) {
 				Action("Exit(Bob, BobsHouse.Door, true)");
-				Action("CreatePlace(City, Newcity)");
-				Action("Enter(Bob, City.Door, true)");
+				Action("FadeOut()");
+				Action("DisableInput()");
+				Action("SetPosition(Bob, Newcity.BlueHouseDoor)");
+				Action("FadeIn()");
+				Action("Enter(Bob, Newcity.BlueHouseDoor, true)");
+				Action("EnableInput()");
 			}
 			else {
-				Action("SetNarration(\"The door is locked!\")");
+				Action("SetNarration(You feel like a you need to take something with you.)");
 				Action("ShowNarration()");
 			}
-		}
-		else if (i == "input arrived Bob position Farm.Exit") {
-			//Action("Exit(Bob, Farm.Exit, true)");
-			Action("FadeOut()");
-			Action("DisableInput()");
-			Action("CreatePlace(Forest, ForestPath)");
-			Action("Enter(Bob, Forest.EastEnd, true)");
-			Action("EnableInput()");
-		}
-		else if (i == "input arrived Bob position Forest.WestEnd") {
-			//Action("Exit(Bob, Forest.WestEnd, true)");
-			Action("FadeOut()");
-			Action("DisableInput()");
-			Action("CreatePlace(City, City)");
-			Action("Enter(Bob, City.EastEnd, true)");
-			Action("EnableInput()");
 		}
 		else if (i == "input Key Pause") {
 			Action("DisableInput()");
