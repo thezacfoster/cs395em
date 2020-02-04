@@ -24,24 +24,32 @@ void Action(string command) {
 
 int main() {
 
-	// Set up a small house with a door.
+	//Place Creations
 	Action("CreatePlace(BobsHouse, Cottage)");
 	Action("CreatePlace(Prison, Dungeon)");
+	Action("CreatePlace(Newcity, City)");
+	//Bob Character
 	Action("CreateCharacter(Bob, B)");
 	Action("SetClothing(Bob, Peasant)");
 	Action("SetHairStyle(Bob, Short_Full)");
 	Action("SetPosition(Bob, BobsHouse.Door)");
+	//Tom Character
 	Action("CreateCharacter(Tom, D)");
 	Action("SetClothing(Tom, HeavyArmour)");
 	Action("SetHairStyle(Tom, Short_Full)");
+	//Mary Character
 	Action("CreateCharacter(Mary, C)");
-	Action("SetClothing(Mary, Witch)");
+	Action("SetClothing(Mary, Peasant)");
 	Action("SetHairStyle(Mary, long)");
-	Action("SetPosition(Mary, BobsHouse.Door)");
+	Action("SetPosition(Mary, Newcity.Plant)");
+	//Items
 	Action("CreateItem(HouseKey, BlueKey)");
 	Action("SetPosition(HouseKey, BobsHouse.Shelf)");
+	//Icons
 	Action("EnableIcon(Pickup_Key, Hand, BobsHouse.Shelf, Pick up key, true)");
 	Action("EnableIcon(Open_Door, Open, BobsHouse.Door, Leave the house, true)");
+	Action("EnableIcon(Talk_To_Mary, Talk, Mary, Talk To Mary, true)");
+	//Menu
 	Action("ShowMenu()");
 
 	vector<string> playerInv;
@@ -55,6 +63,37 @@ int main() {
 			Action("HideMenu()");
 			Action("EnableInput()");
 		}
+		
+		//------------------Dialogue For Mary------------------
+		else if (i == "input Talk_To_Mary Mary") {
+			Action("ClearDialog()");
+			Action("ShowDialog()");
+			Action("SetRight(Mary)");
+			Action("SetLeft(Bob)");
+			//if have book
+			Action("SetDialog(May I see your book? [yes|Sure!] [no|No...])");
+			//else dont have book
+			Action("SetDialog(I love to discuss books! [ok|Let me see if I can find one!])");
+		}
+
+		else if (i == "input Selected yes") {
+			Action("ClearDialog()");
+			Action("SetDialog(It speaks of an enchantment spell for a sword! [cool|I think I have a sword at home.])");
+		}
+
+		else if (i == "input Selected ok") {
+			Action("HideDialog()");
+		}
+
+		else if (i == "input Selected cool") {
+			Action("HideDialog()");
+		}
+
+		else if (i == "input Selected no") {
+			Action("HideDialog()");
+		}
+		//------------------Dialogue For Mary------------------
+
 		else if (i == "input Pickup_Key BobsHouse.Shelf") {
 			playerInv.push_back("HouseKey");
 			Action("DisableIcon(Pickup_Key, BobsHouse.Shelf)");
