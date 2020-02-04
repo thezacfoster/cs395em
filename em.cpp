@@ -33,7 +33,7 @@ int main() {
 	Action("CreateItem(Menacing Sword, Sword)");
 	Action("CreateItem(Mysterious Book, BlueBook)");
 	//Icons
-	Action("EnableIcon(Take_Flask, Flask, Refreshment, Take Refreshment, true)");
+//	Action("EnableIcon(Take_Flask, Flask, Refreshment, Take Refreshment, true)");
 	Action("EnableIcon(Open_Door, Open, BobsHouse.Door, Leave the house, true)");
 	Action("EnableIcon(Open_Door, Open, Newcity.BlueHouseDoor, Enter the house, true)");
 	Action("EnableIcon(Open_Chest, Open, BobsHouse.Chest, Open the chest, true)");
@@ -93,13 +93,13 @@ int main() {
 		}
 		//------------------Dialogue For Mary------------------
 
-		else if (i == "input Take_Flask Refreshment") {
-			Action("Take(Bob, Refreshment, BobsHouse.Shelf)");
-			Action("Pocket(Bob, Refreshment)");
-			playerInv.push_back("Refreshment");
+//		else if (i == "input Take_Flask Refreshment") {
+//			Action("Take(Bob, Refreshment, BobsHouse.Shelf)");
+//			Action("Pocket(Bob, Refreshment)");
+//			playerInv.push_back("Refreshment");
 			//Action("DisableIcon(Pickup_Key, BobsHouse.Shelf)");
 			//Action("SetPosition(HouseKey)");
-		}
+//		}
 		//-----------------Inventories--------------------
 		else if (i == "input Open_Chest BobsHouse.Chest") {
 			Action("WalkTo(Bob, BobsHouse.Chest)");
@@ -236,11 +236,19 @@ int main() {
 		else if (i == "input Open_Door Newcity.BlueHouseDoor") {
 			Action("Exit(Bob, Newcity.BlueHouseDoor, true)");
 			Action("FadeOut()");
-			Action("DisableInput()");
 			Action("SetPosition(Bob, BobsHouse.Door)");
+			Action("DisableInput()");
 			Action("Enter(Bob, BobsHouse.Door, true)");
 			Action("FadeIn()");
 			Action("EnableInput()");
+		}
+		else if (i == "input Exit_Cell Prison.CellDoor") {
+		Action("WalkTo(Bob, Prison.CellDoor)");
+		Action("SetNarration(The Door is Locked!)");
+		Action("ShowNarration()");
+		}
+		else if (i == "input Close Narration") {
+		Action("HideNarration()");
 		}
 		else if (i == "input Selected DontLeave") {
 			Action("HideDialog()");
