@@ -50,6 +50,7 @@ int main() {
 	//Icons
 	Action("EnableIcon(Take_Flask, Flask, Refreshment, Take Refreshment, true)");
 	Action("EnableIcon(Open_Door, Open, BobsHouse.Door, Leave the house, true)");
+	Action("EnableIcon(Open_Door, Open, Newcity.BlueHouseDoor, Enter the house, true)");
 	Action("EnableIcon(Open_Chest, Open, BobsHouse.Chest, Open the chest, true)");
 	Action("EnableIcon(Take_Sword, Hand, Menacing Sword, Take the sword, true)");
 	Action("EnableIcon(Take_Book, Hand, Mysterious Book, Take the book, true)");
@@ -233,6 +234,15 @@ int main() {
 			Action("SetPosition(Bob, Newcity.BlueHouseDoor)");
 			Action("FadeIn()");
 			Action("Enter(Bob, Newcity.BlueHouseDoor, true)");
+			Action("EnableInput()");
+		}
+		else if (i == "input Open_Door Newcity.BlueHouseDoor") {
+			Action("Exit(Bob, Newcity.BlueHouseDoor, true)");
+			Action("FadeOut()");
+			Action("DisableInput()");
+			Action("SetPosition(Bob, BobsHouse.Door)");
+			Action("Enter(Bob, BobsHouse.Door, true)");
+			Action("FadeIn()");
 			Action("EnableInput()");
 		}
 		else if (i == "input Selected DontLeave") {
